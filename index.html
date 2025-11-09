@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Snackissy Platinum v3</title>
+    <title>Snackissy Platinum v4 (Reset Button)</title>
     <style>
         :root { --bg:#FFF8E1; --pink:#E91E63; --soft:#F8BBD0; --brown:#5D4037; --gold:#FFC107; }
         body { margin:0; overflow:hidden; font-family:'Comic Sans MS',cursive,sans-serif; background:var(--bg); color:var(--brown); user-select:none; touch-action:none; -webkit-tap-highlight-color:transparent; }
@@ -53,6 +53,7 @@
         <div class="game-card"><h2>🏗️ Tower</h2><p>Tumpuk tinggi-tinggi.</p><button class="btn btn-gold btn-small" onclick="app.tut('g2')">CARA MAIN</button><button class="btn btn-small" onclick="g2.init()">MAIN</button></div>
         <div class="game-card"><h2>🧩 Memory</h2><p>Uji daya ingatmu.</p><button class="btn btn-gold btn-small" onclick="app.tut('g3')">CARA MAIN</button><button class="btn btn-small" onclick="g3.init()">MAIN</button></div>
         <button class="btn btn-gold" style="width:85%; max-width:320px; margin-top:20px; padding:15px;" onclick="app.shop()">🛒 TOKO SKIN</button>
+        <button onclick="if(confirm('Hapus semua data & koin?')) { localStorage.clear(); location.reload(); }" style="background:none; border:none; color:#999; font-size:12px; margin-top:30px; cursor:pointer;">[ RESET DATA ]</button>
     </div>
 </div>
 
@@ -76,7 +77,6 @@
 
 <script>
 const F=["Hidup itu seperti cheesecake, kadang butuh sedikit rasa masam agar lebih segar!","Hari ini kamu semanis stroberi di atas kue. Tetap semangat!","Jangan takut gagal. Kue bantat pun masih bisa dimakan kok (kadang-kadang).","Kesabaran adalah kunci baking... dan juga kunci menghadapi hari Senin.","Rejeki hari ini akan selembut tekstur cheesecake panggang yang sempurna.","Fakta: Makan kue bisa meningkatkan mood sebesar 100% (menurut riset kami)."];
-// UPDATE: localStorage dikembalikan agar data tersimpan meski di-refresh
 const app={c:parseInt(localStorage.getItem('fb_c'))||0,s:localStorage.getItem('fb_s')||'🥣',o:JSON.parse(localStorage.getItem('fb_o'))||['🥣'],
     i:[{id:'🥣',n:'Mangkok',p:0},{id:'🧺',n:'Keranjang',p:500},{id:'🥡',n:'Takeaway',p:1500},{id:'🛒',n:'Troli',p:3000},{id:'🎩',n:'Topi Sulap',p:5000},{id:'🛸',n:'UFO',p:9999}],
     init:function(){this.upC(0)},upC:function(n){this.c+=n;localStorage.setItem('fb_c',this.c);document.getElementById('totalCoins').innerText=this.c},
@@ -103,7 +103,6 @@ function over(s,g,force){
     document.getElementById('fScore').innerText=s;let e=Math.max(1,Math.floor(g==='g3'?(100-s)/2:s/5));document.getElementById('eCoins').innerText=e;app.upC(e);
     document.getElementById('fortune').innerText=F[Math.floor(Math.random()*F.length)];
     document.getElementById('bSave').onclick=()=>{lb.sv(g,document.getElementById('iName').value.trim()||'Anonim',s);lb.sh(g)};
-    // UPDATE: Fungsi untuk tombol MAIN LAGI
     document.getElementById('bReplay').onclick=()=>{document.getElementById('overlay').style.display='none';if(g==='g1')g1.init();else if(g==='g2')g2.init();else g3.init()};
 };
 const g1={s:0,t:[],init:()=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('g1').classList.add('active');document.getElementById('currencyBar').style.display='none';g1.s=0;document.getElementById('g1s').innerText='0';document.getElementById('g1p').innerText=app.s;document.querySelectorAll('.g1i').forEach(i=>i.remove());g1.t.push(setInterval(g1.lp,30),setInterval(g1.sp,800));document.getElementById('g1').onmousemove=(e)=>g1.mv(e.clientX);document.getElementById('g1').ontouchmove=(e)=>{e.preventDefault();g1.mv(e.touches[0].clientX)}},mv:(x)=>{document.getElementById('g1p').style.left=Math.min(Math.max(x,40),window.innerWidth-40)+'px'},sp:()=>{let i=document.createElement('div');i.className='g1i';i.style.position='absolute';i.style.fontSize='55px';let r=Math.random();if(r<0.6){i.innerText=['🧀','🍓','🥛'][Math.floor(Math.random()*3)];i.dataset.t='g'}else if(r<0.9){i.innerText=['🪲','👞'][Math.floor(Math.random()*2)];i.dataset.t='b'}else{i.innerText='💣';i.dataset.t='d'}i.style.left=Math.random()*(window.innerWidth-60)+'px';i.style.top='-60px';document.getElementById('g1').appendChild(i)},lp:()=>{let p=document.getElementById('g1p').getBoundingClientRect();document.querySelectorAll('.g1i').forEach(i=>{i.style.top=(parseFloat(i.style.top)+7)+'px';let r=i.getBoundingClientRect();if(r.bottom>=p.top+40&&r.right>=p.left+20&&r.left<=p.right-20&&r.top<p.bottom-40){if(i.dataset.t==='g')g1.s+=10;else if(i.dataset.t==='d'){g1.over();return}else g1.s=Math.max(0,g1.s-5);document.getElementById('g1s').innerText=g1.s;i.remove()}else if(parseFloat(i.style.top)>window.innerHeight)i.remove()})},over:(f)=>{g1.t.forEach(clearInterval);g1.t=[];over(g1.s,'g1',f)}};
