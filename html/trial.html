@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../img/logosnackissy.png">
+    <title>Snackissy - Snack Sehat Premium</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #e98797;
+            --secondary-color: #ffda67;
+            --background-color: #F8F8F8;
+            --text-color: #333;
+            --light-text: #666;
+            --detail-btn: #d96b7f; /* pilihanmu */
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            background: var(--background-color);
+        }
+
+        /* ===============================
+           HEADER
+        =============================== */
+        .header {
+            background: var(--primary-color);
+            padding: 14px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .logo img {
+            height: 65px;
+        }
+
+        .nav {
+            display: flex;
+            gap: 22px;
+        }
+
+        .nav a {
+            text-decoration: none;
+            font-weight: 600;
+            color: white;
+        }
+
+        /* HAMBURGER */
+        .hamburger {
+            display: none;
+            font-size: 28px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        .mobile-nav {
+            display: none;
+            flex-direction: column;
+            background: var(--primary-color);
+            padding: 15px 5%;
+            gap: 12px;
+        }
+
+        .mobile-nav a {
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        /* ===============================
+           HERO
+        =============================== */
+        .hero {
+            background: linear-gradient(rgba(255,255,255,.85), rgba(255,255,255,.85)),
+                url("https://images.unsplash.com/photo-1595168249826-b8166c4c6e93?q=80&w=2940&auto=format&fit=crop");
+            background-size: cover;
+            background-position: center;
+            padding: 110px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3em;
+            color: var(--primary-color);
+        }
+
+        .hero p {
+            max-width: 700px;
+            margin: auto;
+            color: var(--light-text);
+        }
+
+        .hero-buttons {
+            margin-top: 35px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .order-button-wa,
+        .order-button-form {
+            padding: 14px 40px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.3s;
+            color: white;
+        }
+
+        .order-button-wa {
+            background: #25D366;
+        }
+
+        .order-button-wa:hover {
+            background: #1ebe5b;
+            transform: translateY(-2px);
+        }
+
+        .order-button-form {
+            background: var(--primary-color);
+        }
+
+        .order-button-form:hover {
+            background: #d76c7a;
+            transform: translateY(-2px);
+        }
+
+        /* ===============================
+           PRODUCT GRID
+        =============================== */
+        .section {
+            padding: 70px 5%;
+            text-align: center;
+        }
+
+        .section h2 {
+            font-size: 2.4em;
+            color: var(--primary-color);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 35px;
+            margin-top: 40px;
+        }
+
+        .product-card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 22px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: 0.25s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+        }
+
+        .photo-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .detail-btn {
+            margin-top: 15px;
+            background: var(--detail-btn);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 50px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+        .detail-btn:hover {
+            background: #c4556d;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(217, 107, 127, 0.4);
+        }
+
+        /* ===============================
+           FOOTER
+        =============================== */
+        .footer {
+            background: linear-gradient(135deg, #e98797, #ffda67);
+            padding: 45px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .footer-logo {
+            height: 68px;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .footer a:hover {
+            opacity: 0.7;
+        }
+
+        .dot { opacity: .7; padding: 0 5px; }
+
+        /* ===============================
+           MODAL
+        =============================== */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.55);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+        }
+
+        .modal-content {
+            background: #fff;
+            width: 90%;
+            max-width: 420px;
+            padding: 25px;
+            border-radius: 18px;
+            text-align: center;
+        }
+
+        .modal-img {
+            width: 100%;
+            height: 230px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .qty-box {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .qty-btn {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            border: none;
+            color: white;
+            border-radius: 10px;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        .order-btn {
+            background: var(--secondary-color);
+            padding: 14px 30px;
+            border-radius: 50px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* ===============================
+           RESPONSIVE
+        =============================== */
+        @media(max-width: 768px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width: 600px) {
+
+            .nav { display: none; }
+            .hamburger { display: block; }
+
+            .logo img {
+                height: 55px;
+            }
+
+            .hero h1 {
+                font-size: 2.2em;
+            }
+
+            .hero-buttons a {
+                width: 85%;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<script>
+const waNumber = "6281523763746";
+
+/* Hamburger */
+function toggleMenu() {
+    const menu = document.getElementById("mobileNav");
+    menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+}
+
+/* Modal */
+function openProductModal(name, price, desc, img) {
+    document.getElementById("modalName").textContent = name;
+    document.getElementById("modalPrice").textContent = price;
+    document.getElementById("modalDesc").textContent = desc;
+    document.getElementById("modalImg").src = img;
+
+    document.getElementById("qty").textContent = 1;
+
+    document.getElementById("orderBtn").onclick = function() {
+        let qty = document.getElementById("qty").textContent;
+        let msg = `Halo! Saya ingin memesan *${name}* (${price}) sebanyak *${qty} pcs*.`;
+        window.open("https://wa.me/" + waNumber + "?text=" + encodeURIComponent(msg));
+    };
+
+    document.getElementById("productModal").style.display = "flex";
+}
+
+function closeModal() {
+    document.getElementById("productModal").style.display = "none";
+}
+
+function changeQty(v) {
+    let qty = parseInt(document.getElementById("qty").textContent);
+    qty = Math.max(1, qty + v);
+    document.getElementById("qty").textContent = qty;
+}
+</script>
+
+<!-- HEADER -->
+<header class="header">
+    <div class="logo">
+        <img src="../img/logosnackissy.png">
+    </div>
+
+    <nav class="nav">
+        <a href="#home">Beranda</a>
+        <a href="#menu">Menu</a>
+        <a href="#contact">Kontak</a>
+    </nav>
+
+    <button class="hamburger" onclick="toggleMenu()">☰</button>
+</header>
+
+<div id="mobileNav" class="mobile-nav">
+    <a href="#home" onclick="toggleMenu()">Beranda</a>
+    <a href="#menu" onclick="toggleMenu()">Menu</a>
+    <a href="#contact" onclick="toggleMenu()">Kontak</a>
+</div>
+
+<!-- HERO -->
+<section id="home" class="hero">
+    <h1>Snackissy: Camilan manis bikin Happy!</h1>
+    <p>Cheesecuit lembut dengan perpaduan rasa yang simple namun elegan. Hadir dengan topping segar dan bahan berkualitas untuk menciptakan dessert yang halus, ringan, dan memikat.</p>
+
+    <div class="hero-buttons">
+        <a onclick="window.open('https://wa.me/' + waNumber)" class="order-button-wa">💬 VIA WHATSAPP</a>
+        <a onclick="window.open('https://forms.gle/U7ahK8ee6WhF7W2y5')" class="order-button-form">📝 VIA FORM</a>
+    </div>
+</section>
+
+<!-- PRODUCT GRID -->
+<section id="menu" class="section">
+    <h2>Pilihan Snack Premium 🍰</h2>
+
+    <div class="product-grid">
+
+        <!-- CARD 1 -->
+        <div class="product-card">
+            <img class="photo-img" src="../img/mangga.jpg">
+            <h3>Mango Bliss</h3>
+            <p>Rp 18.000</p>
+            <button class="detail-btn"
+                onclick="openProductModal('Mango Bliss','Rp 18.000','Potongan mangga juicy + cream lembut.','../img/mangga.jpg')">
+                Lihat Detail
+            </button>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="product-card">
+            <img class="photo-img" src="../img/strawberry.jpg">
+            <h3>Strawberry Kiss</h3>
+            <p>Rp 18.000</p>
+            <button class="detail-btn"
+                onclick="openProductModal('Strawberry Kiss','Rp 18.000','Creamy + strawberry segar.','../img/strawberry.jpg')">
+                Lihat Detail
+            </button>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="product-card">
+            <img class="photo-img" src="../img/chocolate.jpg">
+            <h3>Choco Hug</h3>
+            <p>Rp 20.000</p>
+            <button class="detail-btn"
+                onclick="openProductModal('Choco Hug','Rp 20.000','Coklat pekat meleleh, cocok untuk chocolate lover.','../img/chocolate.jpg')">
+                Lihat Detail
+            </button>
+        </div>
+
+        <!-- CARD 4 -->
+        <div class="product-card">
+            <img class="photo-img" src="../img/matcha.jpg">
+            <h3>Matcha Crush</h3>
+            <p>Rp 20.000</p>
+            <button class="detail-btn"
+                onclick="openProductModal('Matcha Crush','Rp 20.000','Matcha premium yang earthy + creamy.','../img/matcha.jpg')">
+                Lihat Detail
+            </button>
+        </div>
+
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact" class="footer">
+    <img src="../img/logosnackissy.png" class="footer-logo">
+
+    <h3>Snackissy 💖</h3>
+    <p>Simple snacks, pure happiness!! ✨</p>
+
+    <p>
+        <a onclick="window.open('https://wa.me/' + waNumber)">WhatsApp</a>
+        <span class="dot">•</span>
+        <a href="mailto:halo@snackissy.com">Email</a>
+        <span class="dot">•</span>
+        <a href="https://www.instagram.com/by.snackissy" target="_blank">Instagram</a>
+    </p>
+
+    <p>© 2025 Snackissy. All rights reserved.</p>
+</footer>
+
+<!-- MODAL -->
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <img id="modalImg" class="modal-img">
+        <h3 id="modalName"></h3>
+        <p id="modalPrice" style="color:var(--primary-color); font-weight:600;"></p>
+        <p id="modalDesc"></p>
+
+        <div class="qty-box">
+            <button class="qty-btn" onclick="changeQty(-1)">−</button>
+            <span id="qty" class="qty-number">1</span>
+            <button class="qty-btn" onclick="changeQty(1)">+</button>
+        </div>
+
+        <button id="orderBtn" class="order-btn">Pesan via WhatsApp</button>
+
+        <p onclick="closeModal()" style="cursor:pointer; margin-top:10px;">Tutup</p>
+    </div>
+</div>
+
+</body>
+</html>
